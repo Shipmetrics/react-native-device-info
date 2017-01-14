@@ -5,8 +5,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.os.SystemClock;
 import android.provider.Settings.Secure;
 
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.WritableMap;
 import com.google.android.gms.iid.InstanceID;
 
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -36,7 +41,7 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
   private String getCurrentLanguage() {
       Locale current = getReactApplicationContext().getResources().getConfiguration().locale;
       if (Build.VERSION.SDK_INT >= 
-          .VERSION_CODES.LOLLIPOP) {
+          Build.VERSION_CODES.LOLLIPOP) {
           return current.toLanguageTag();
       } else {
           StringBuilder builder = new StringBuilder();
@@ -68,6 +73,13 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
   private Boolean isTablet() {
     int layout = getReactApplicationContext().getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
     return layout == Configuration.SCREENLAYOUT_SIZE_LARGE || layout == Configuration.SCREENLAYOUT_SIZE_XLARGE;
+  }
+
+  @ReactMethod
+  public void getUptime(Promise promise) {
+      WritableMap map = Arguments.createMap();
+      map.putString("uptime", String.valueOf(SystemClock.uptimeMillis()));
+      promise.resolve(map);
   }
 
   @Override
