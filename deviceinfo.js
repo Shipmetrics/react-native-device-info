@@ -64,5 +64,9 @@ module.exports = {
   },
   getSerial: function () {
     return RNDeviceInfo.deviceSerial
+  },
+  getUptime: async function () {
+    let uptime = await RNDeviceInfo.getUptime()
+    return uptime.uptime
   }
 };
