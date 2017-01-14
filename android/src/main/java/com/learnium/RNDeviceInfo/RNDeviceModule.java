@@ -35,7 +35,8 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
 
   private String getCurrentLanguage() {
       Locale current = getReactApplicationContext().getResources().getConfiguration().locale;
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      if (Build.VERSION.SDK_INT >= 
+          .VERSION_CODES.LOLLIPOP) {
           return current.toLanguageTag();
       } else {
           StringBuilder builder = new StringBuilder();
@@ -104,6 +105,7 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("model", Build.MODEL);
     constants.put("brand", Build.BRAND);
     constants.put("deviceId", Build.BOARD);
+    constants.put("deviceSerial", Build.SERIAL);
     constants.put("deviceLocale", this.getCurrentLanguage());
     constants.put("deviceCountry", this.getCurrentCountry());
     constants.put("uniqueId", Secure.getString(this.reactContext.getContentResolver(), Secure.ANDROID_ID));
