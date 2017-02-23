@@ -65,13 +65,13 @@ module.exports = {
   getSerial: function () {
     return RNDeviceInfo.deviceSerial
   },
-  deviceBuildDisplay: function() {
+  getDeviceBuildDisplay: function() {
     return RNDeviceInfo.deviceBuildDisplay;
   },
-  deviceBuildFingerprint: function() {
+  getDeviceBuildFingerprint: function() {
     return RNDeviceInfo.deviceBuildFingerprint;
   },
-  deviceBuildID: function () {
+  getDeviceBuildID: function () {
     return RNDeviceInfo.deviceBuildID
   },
   getUptime: async function () {
