@@ -77,5 +77,44 @@ module.exports = {
   getUptime: async function () {
     let uptime = await RNDeviceInfo.getUptime()
     return uptime.uptime
+  },
+  getSimDetails: function () {
+    let ret = {
+      hasSimDetails: RNDeviceInfo.hasSimDetails,
+      phoneNumber: RNDeviceInfo.phoneNumber,
+      dualSim: RNDeviceInfo.dualSim
+    }
+    ret.subscriptionList = []
+    if (RNDeviceInfo.simCountryIso0) {
+      ret.subscriptionList.push({
+        simNumber: RNDeviceInfo.simNumber0,
+        simNetwork: RNDeviceInfo.simNetwork0,
+        simCountryIso: RNDeviceInfo.simCountryIso0,
+        simSlotIndex: RNDeviceInfo.simSlotIndex0,
+        simSlotMcc: RNDeviceInfo.simSlotMcc0,
+        simSlotMnc: RNDeviceInfo.simSlotMnc0
+      })
+    }
+
+    ret.slotList = []
+    ret.slotList.push({
+      slotImei: RNDeviceInfo.slotImei0
+    })
+    if (RNDeviceInfo.dualSim) {
+      if (RNDeviceInfo.simCountryIso1) {
+        ret.subscriptionList.push({
+          simNumber: RNDeviceInfo.simNumber1,
+          simNetwork: RNDeviceInfo.simNetwork1,
+          simCountryIso: RNDeviceInfo.simCountryIso1,
+          simSlotIndex: RNDeviceInfo.simSlotIndex1,
+          simSlotMcc: RNDeviceInfo.simSlotMcc1,
+          simSlotMnc: RNDeviceInfo.simSlotMnc1
+        })
+      }
+      ret.slotList.push({
+        slotImei: RNDeviceInfo.slotImei1
+      })
+    }
+    return ret
   }
 };
