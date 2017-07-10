@@ -1,12 +1,17 @@
 package com.learnium.RNDeviceInfo;
 
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.SystemClock;
 import android.provider.Settings.Secure;
+import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
@@ -18,6 +23,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
@@ -130,6 +136,43 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("timezone", TimeZone.getDefault().getID());
     constants.put("isEmulator", this.isEmulator());
     constants.put("isTablet", this.isTablet());
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+      try {
+        constants.put("hasSimDetails", true);
+        constants.put("dualSim", false);
+
+        List<SubscriptionInfo> subscriptionInfos = SubscriptionManager.from(getReactApplicationContext()).getActiveSubscriptionInfoList();
+        for (int i = 0; i < subscriptionInfos.size(); i++) {
+          SubscriptionInfo lsuSubscriptionInfo = subscriptionInfos.get(i);
+          constants.put("simNumber" + i, lsuSubscriptionInfo.getNumber());
+          constants.put("simNetwork" + i, lsuSubscriptionInfo.getCarrierName());
+          constants.put("simCountryIso" + i, lsuSubscriptionInfo.getCountryIso());
+          constants.put("simSlotIndex" + i, lsuSubscriptionInfo.getSimSlotIndex());
+          constants.put("simSlotMcc" + i, lsuSubscriptionInfo.getMcc());
+          constants.put("simSlotMnc" + i, lsuSubscriptionInfo.getMnc());
+        }
+
+        TelephonyManager tMgr = (TelephonyManager) getReactApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+        String mPhoneNumber = tMgr.getLine1Number();
+
+        constants.put("phoneNumber", mPhoneNumber);
+        constants.put("phoneSimSerialNumber", tMgr.getSimSerialNumber());
+        constants.put("slotImei0", tMgr.getDeviceId(0));
+
+        if (tMgr.getPhoneCount() > 1) {
+          constants.put("slotImei1", tMgr.getDeviceId(1));
+          constants.put("dualSim", true);
+        }
+
+      } catch (Exception ex) {
+        Log.d("TAG", ex.toString());
+      }
+    } else {
+      constants.put("hasSimDetails", false);
+      constants.put("dualSim", false);
+    }
+
     return constants;
   }
 }
