@@ -159,6 +159,10 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
         constants.put("phoneNumber", mPhoneNumber);
         constants.put("phoneSimSerialNumber", tMgr.getSimSerialNumber());
         constants.put("slotImei0", tMgr.getDeviceId(0));
+        constants.put("subscriberId", tMgr.getSubscriberId());
+        constants.put("line1Number", tMgr.getLine1Number());
+        constants.put("dataState", tMgr.getDataState());
+        constants.put("dataActivity", tMgr.getDataActivity());
 
         if (tMgr.getPhoneCount() > 1) {
           constants.put("slotImei1", tMgr.getDeviceId(1));

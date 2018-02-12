@@ -82,6 +82,11 @@ module.exports = {
     let ret = {
       hasSimDetails: RNDeviceInfo.hasSimDetails,
       phoneNumber: RNDeviceInfo.phoneNumber,
+      phoneSimSerialNumber: RNDeviceInfo.phoneSimSerialNumber,
+      subscriberId: RNDeviceInfo.subscriberId,
+      line1Number: RNDeviceInfo.line1Number,
+      dataState: RNDeviceInfo.dataState,
+      dataActivity: RNDeviceInfo.dataActivity,
       dualSim: RNDeviceInfo.dualSim
     }
     ret.subscriptionList = []
@@ -93,6 +98,16 @@ module.exports = {
         simSlotIndex: RNDeviceInfo.simSlotIndex0,
         simSlotMcc: RNDeviceInfo.simSlotMcc0,
         simSlotMnc: RNDeviceInfo.simSlotMnc0
+      })
+    }
+    if (RNDeviceInfo.simCountryIso1) {
+      ret.subscriptionList.push({
+        simNumber: RNDeviceInfo.simNumber1,
+        simNetwork: RNDeviceInfo.simNetwork1,
+        simCountryIso: RNDeviceInfo.simCountryIso1,
+        simSlotIndex: RNDeviceInfo.simSlotIndex1,
+        simSlotMcc: RNDeviceInfo.simSlotMcc1,
+        simSlotMnc: RNDeviceInfo.simSlotMnc1
       })
     }
 
