@@ -157,7 +157,7 @@ RCT_EXPORT_MODULE()
   return [self.deviceName isEqual: @"Simulator"];
 }
 
-- (bool)requiresMainQueueSetup
++ (bool)requiresMainQueueSetup
 {
   return YES;  // only do this if your module initialization relies on calling UIKit!
 }
