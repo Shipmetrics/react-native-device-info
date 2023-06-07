@@ -130,8 +130,7 @@ RCT_EXPORT_MODULE()
 
 - (NSString*) userAgent
 {
-    UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-    return [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    return @"IOS-APP";
 }
 
 - (NSString*) deviceLocale
